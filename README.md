@@ -55,10 +55,10 @@ The compose stack avoids common defaults:
 cd /Users/Username/Location/capitol-paper-bot
 docker compose build
 docker compose up -d db
-docker compose run --rm bot
+docker compose run --rm bot python -m bot.cli --config config/strategy.yaml paper-run
 ```
 
-The default command is now the scheduled paper-trading workflow. For a one-shot backtest:
+The `bot` service idles by default so hosting platforms do not restart-loop the one-shot trading command. For a one-shot backtest:
 
 ```bash
 docker compose run --rm bot python -m bot.cli --config config/strategy.yaml backtest
@@ -150,5 +150,6 @@ Coolify deployment notes are in `docs/coolify.md`.
 - `XSP` is explicitly filtered out because it is a Cboe Mini-SPX index options product, not a stock. Source: [Cboe XSP](https://www.cboe.com/tradable-products/sp-500/xsp-options)
 - The intended VPS automation command is:
   `docker compose run --rm bot python -m bot.cli --config config/strategy.yaml paper-run`
+- Do not configure the long-running Coolify app service itself to run `paper-run`; keep the service idle and run `paper-run` only as a scheduled job.
 - The daily run is idempotent per market date: same-day duplicate runs reuse the stored result and do not re-apply contributions or trades.
 - Every `paper-run` writes a short message to `data/daily_message.txt` so the latest status can be delivered externally.

@@ -27,7 +27,7 @@ services:
     volumes:
       - ./data:/app/data
       - ./config:/app/config
-    command: ["python", "-m", "bot.cli", "--config", "config/strategy.yaml", "paper-run"]
+    command: ["sleep", "infinity"]
 
 volumes:
   postgres_data:

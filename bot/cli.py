@@ -395,7 +395,7 @@ async def _run(config_path: str, command: str, dry_run: bool = False) -> None:
     chart_path.write_text(render_portfolio_chart_svg(history))
     chart_png_path = out_dir / "portfolio_chart.png"
     write_portfolio_chart_png(history, str(chart_png_path))
-    if report is not None:
+    if report is not None and not paper_result.already_ran_today:
         send_alert("Capitol bot daily update", message, attachment_path=chart_png_path)
     _write_manifest(out_dir, config_path, command, started_at, routine_status, trade_disclosures, prices, "dry-run" if dry_run else "ok")
 

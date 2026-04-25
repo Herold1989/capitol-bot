@@ -5,7 +5,7 @@ This setup does not require a domain. Coolify only needs to run the Docker Compo
 ## Services
 
 - `db`: Postgres state store
-- `bot`: one-shot paper-trading container
+- `bot`: idle container image used by scheduled jobs
 - `data/`: mounted artifact directory for reports, CSVs, and charts
 
 The image includes a fallback config at `/app/default_config/strategy.yaml`. If Coolify creates an empty config volume at `/app/config`, the bot will still start using that fallback. If you want to override strategy settings in production, mount a real `strategy.yaml` at `/app/config/strategy.yaml`.
@@ -29,6 +29,8 @@ Run this once per market day after the US close:
 ```bash
 docker compose run --rm bot python -m bot.cli --config config/strategy.yaml paper-run
 ```
+
+Keep the deployed `bot` service command as `sleep infinity`. Do not set the app service command to `paper-run`; Coolify will restart a one-shot service after it exits, which causes repeated same-day invocations and Discord spam.
 
 For a no-write smoke test:
 

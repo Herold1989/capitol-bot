@@ -19,4 +19,4 @@ COPY config ./config
 COPY config ./default_config
 COPY README.md ./
 
-CMD ["python", "-m", "bot.cli", "--config", "config/strategy.yaml", "paper-run"]
+CMD ["sleep", "infinity"]

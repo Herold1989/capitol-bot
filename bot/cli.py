@@ -13,7 +13,7 @@ import pandas as pd
 
 from bot.alerting import send_alert
 from bot.capitol_scraper import CapitolTradesScraper
-from bot.config import load_config
+from bot.config import load_config, resolve_config_path
 from bot.db import connect as connect_db
 from bot.db import ensure_schema
 from bot.market_data import MarketDataClient
@@ -62,11 +62,13 @@ def _write_manifest(
     prices: pd.DataFrame,
     status: str,
 ) -> None:
-    config_bytes = Path(config_path).read_bytes()
+    resolved_config_path = resolve_config_path(config_path)
+    config_bytes = resolved_config_path.read_bytes()
     manifest = {
         "command": command,
         "status": status,
         "config_hash": hashlib.sha256(config_bytes).hexdigest(),
+        "config_path": str(resolved_config_path),
         "git_commit": _git_commit_hash(),
         "docker_image_id": _docker_image_id(),
         "disclosure_count": int(len(disclosures)),

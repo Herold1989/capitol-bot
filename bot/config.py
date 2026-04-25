@@ -93,12 +93,17 @@ class AppConfig(BaseModel):
     execution: ExecutionConfig
 
 
-def load_config(path: str | Path) -> AppConfig:
-    # Parse YAML once and validate every nested section before the run starts.
+def resolve_config_path(path: str | Path) -> Path:
     config_path = Path(path)
     if not config_path.exists():
         fallback_path = Path("/app/default_config") / config_path.name
         if fallback_path.exists():
-            config_path = fallback_path
+            return fallback_path
+    return config_path
+
+
+def load_config(path: str | Path) -> AppConfig:
+    # Parse YAML once and validate every nested section before the run starts.
+    config_path = resolve_config_path(path)
     raw: dict[str, Any] = yaml.safe_load(config_path.read_text())
     return AppConfig.model_validate(raw)

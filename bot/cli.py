@@ -18,7 +18,13 @@ from bot.db import connect as connect_db
 from bot.db import ensure_schema
 from bot.market_data import MarketDataClient
 from bot.paper_trader import PaperTrader
-from bot.reporting import load_latest_daily_report, load_portfolio_history, render_daily_message, render_portfolio_chart_svg
+from bot.reporting import (
+    load_latest_daily_report,
+    load_portfolio_history,
+    render_daily_message,
+    render_portfolio_chart_svg,
+    write_portfolio_chart_png,
+)
 from bot.routine import build_routine_status, cache_is_fresh, read_cached_frame, write_cached_frame
 from bot.strategy import CapitolStrategy, format_metrics
 
@@ -186,8 +192,11 @@ async def _run(config_path: str, command: str, dry_run: bool = False) -> None:
         message = render_daily_message(report)
         (out_dir / "daily_message.txt").write_text(message + "\n")
         history.to_csv(out_dir / "portfolio_history.csv", index=False)
-        (out_dir / "portfolio_chart.svg").write_text(render_portfolio_chart_svg(history))
-        alert_sent = send_alert("Capitol bot daily update", message)
+        chart_path = out_dir / "portfolio_chart.svg"
+        chart_path.write_text(render_portfolio_chart_svg(history))
+        chart_png_path = out_dir / "portfolio_chart.png"
+        write_portfolio_chart_png(history, str(chart_png_path))
+        alert_sent = send_alert("Capitol bot daily update", message, attachment_path=chart_png_path)
         print(message)
         print(f"discord_alert_sent: {alert_sent}")
         return
@@ -372,7 +381,6 @@ async def _run(config_path: str, command: str, dry_run: bool = False) -> None:
     if report is not None:
         message = render_daily_message(report)
         (out_dir / "daily_message.txt").write_text(message + "\n")
-        send_alert("Capitol bot daily update", message)
 
     # Persist the exact signal/target view associated with this run when it is available.
     run_signal_frame = paper_result.signal_frame if not paper_result.signal_frame.empty else latest_signal_frame
@@ -381,7 +389,12 @@ async def _run(config_path: str, command: str, dry_run: bool = False) -> None:
     run_targets.to_csv(out_dir / "targets.csv", index=False)
     paper_result.target_diff.to_csv(out_dir / "target_diff.csv", index=False)
     history.to_csv(out_dir / "portfolio_history.csv", index=False)
-    (out_dir / "portfolio_chart.svg").write_text(render_portfolio_chart_svg(history))
+    chart_path = out_dir / "portfolio_chart.svg"
+    chart_path.write_text(render_portfolio_chart_svg(history))
+    chart_png_path = out_dir / "portfolio_chart.png"
+    write_portfolio_chart_png(history, str(chart_png_path))
+    if report is not None:
+        send_alert("Capitol bot daily update", message, attachment_path=chart_png_path)
     _write_manifest(out_dir, config_path, command, started_at, routine_status, trade_disclosures, prices, "dry-run" if dry_run else "ok")
 
     action_summary = paper_result.action_summary

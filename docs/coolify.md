@@ -13,11 +13,12 @@ This setup does not require a domain. Coolify only needs to run the Docker Compo
 Set these in Coolify:
 
 ```text
+POSTGRES_DB=capitol_bot
+POSTGRES_USER=capitol_bot
+POSTGRES_PASSWORD=<long random password>
 DISCORD_WEBHOOK_URL=https://discord.com/api/webhooks/...
 DISCORD_USER_ID=
 ```
-
-`DISCORD_USER_ID` is optional. Discord mentions require the numeric user ID, not the visible handle `herold1989`.
 
 ## Scheduled Command
 
@@ -43,5 +44,6 @@ The bot stores state in Postgres and writes artifacts under `data/`, including:
 - `target_diff.csv`
 - `portfolio_history.csv`
 - `portfolio_chart.svg`
+- `portfolio_chart.png`
 
-On a successful paper run, the bot posts the daily message to Discord. It also posts warning alerts for stale data, disclosure-feed warnings, provider errors, and trade-executed events.
+On a successful paper run, the bot posts the daily message and `portfolio_chart.png` to Discord. It also posts warning alerts for stale data, disclosure-feed warnings, provider errors, and trade-executed events.

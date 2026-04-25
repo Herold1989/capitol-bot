@@ -1,11 +1,13 @@
 from __future__ import annotations
 
+import json
 import os
+from pathlib import Path
 
 import requests
 
 
-def send_alert(subject: str, body: str, raise_on_error: bool = False) -> bool:
+def send_alert(subject: str, body: str, raise_on_error: bool = False, attachment_path: str | Path | None = None) -> bool:
     webhook_url = os.environ.get("DISCORD_WEBHOOK_URL") or os.environ.get("ALERT_WEBHOOK_URL")
     if not webhook_url:
         if raise_on_error:
@@ -15,12 +17,20 @@ def send_alert(subject: str, body: str, raise_on_error: bool = False) -> bool:
     user_id = os.environ.get("DISCORD_USER_ID")
     if user_id:
         mention = f"<@{user_id}> "
-    payload = {
-        "content": f"{mention}**{subject}**\n{body}",
-        "allowed_mentions": {"users": [user_id]} if user_id else {"parse": []},
-    }
+    payload = {"content": f"{mention}**{subject}**\n{body}", "allowed_mentions": {"users": [user_id]} if user_id else {"parse": []}}
     try:
-        requests.post(webhook_url, json=payload, timeout=10).raise_for_status()
+        if attachment_path is None:
+            requests.post(webhook_url, json=payload, timeout=10).raise_for_status()
+        else:
+            path = Path(attachment_path)
+            with path.open("rb") as attachment:
+                content_type = "image/png" if path.suffix.lower() == ".png" else "image/svg+xml"
+                requests.post(
+                    webhook_url,
+                    data={"payload_json": json.dumps(payload)},
+                    files={"file": (path.name, attachment, content_type)},
+                    timeout=20,
+                ).raise_for_status()
         return True
     except requests.RequestException:
         # Alert delivery must never fail the trading run or DB write path.

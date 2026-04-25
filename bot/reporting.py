@@ -4,6 +4,7 @@ from dataclasses import dataclass
 
 import pandas as pd
 import psycopg
+from PIL import Image, ImageDraw, ImageFont
 
 
 @dataclass(slots=True)
@@ -198,6 +199,89 @@ def render_portfolio_chart_svg(history: pd.DataFrame, width: int = 960, height: 
   <rect x="{margin_left + 285}" y="{height - 28}" width="14" height="4" fill="#6b7280" /><text x="{margin_left + 305}" y="{height - 23}" font-family="Arial" font-size="12" fill="#111827">Contributed cash</text>
 </svg>
 """
+
+
+def write_portfolio_chart_png(history: pd.DataFrame, path: str, width: int = 960, height: int = 520) -> None:
+    image = Image.new("RGB", (width, height), "white")
+    draw = ImageDraw.Draw(image)
+    font = ImageFont.load_default()
+    bold_font = ImageFont.load_default()
+
+    if history.empty:
+        draw.text((40, 60), "No portfolio history yet", fill="#111827", font=font)
+        image.save(path)
+        return
+
+    frame = history.copy()
+    frame["run_date"] = pd.to_datetime(frame["run_date"])
+    for column in ["portfolio_value", "benchmark_value", "total_contributed_strategy"]:
+        frame[column] = pd.to_numeric(frame[column], errors="coerce")
+    frame = frame.dropna(subset=["run_date", "portfolio_value"])
+    if frame.empty:
+        draw.text((40, 60), "No portfolio history yet", fill="#111827", font=font)
+        image.save(path)
+        return
+
+    margin_left, margin_right, margin_top, margin_bottom = 76, 34, 42, 76
+    plot_width = width - margin_left - margin_right
+    plot_height = height - margin_top - margin_bottom
+    date_min = frame["run_date"].min()
+    date_max = frame["run_date"].max()
+    date_span = max((date_max - date_min).days, 1)
+    value_columns = ["portfolio_value", "benchmark_value", "total_contributed_strategy"]
+    y_min = float(frame[value_columns].min(skipna=True).min())
+    y_max = float(frame[value_columns].max(skipna=True).max())
+    y_pad = max((y_max - y_min) * 0.08, 50.0)
+    y_min = max(0.0, y_min - y_pad)
+    y_max = y_max + y_pad
+    y_span = max(y_max - y_min, 1.0)
+
+    def x_pos(ts: pd.Timestamp) -> float:
+        return margin_left + ((ts - date_min).days / date_span) * plot_width
+
+    def y_pos(value: float) -> float:
+        return margin_top + (1.0 - ((value - y_min) / y_span)) * plot_height
+
+    draw.text((margin_left, 18), "Portfolio development", fill="#111827", font=bold_font)
+    latest = frame.iloc[-1]
+    draw.text((width - margin_right - 150, 18), f"Latest ${float(latest['portfolio_value']):,.2f}", fill="#4b5563", font=font)
+
+    for idx in range(5):
+        value = y_min + (y_span * idx / 4)
+        y = y_pos(value)
+        draw.line((margin_left, y, width - margin_right, y), fill="#e5e7eb", width=1)
+        draw.text((8, y - 6), f"${value:,.0f}", fill="#4b5563", font=font)
+
+    draw.line((margin_left, height - margin_bottom, width - margin_right, height - margin_bottom), fill="#9ca3af", width=1)
+    draw.line((margin_left, margin_top, margin_left, height - margin_bottom), fill="#9ca3af", width=1)
+
+    def draw_series(column: str, color: str, dashed: bool = False) -> None:
+        points = [
+            (x_pos(row["run_date"]), y_pos(float(row[column])))
+            for _, row in frame.dropna(subset=[column]).iterrows()
+        ]
+        if len(points) < 2:
+            return
+        if not dashed:
+            draw.line(points, fill=color, width=3)
+            return
+        for start, end in zip(points, points[1:]):
+            draw.line((start, end), fill=color, width=2)
+
+    draw_series("total_contributed_strategy", "#6b7280", dashed=True)
+    draw_series("benchmark_value", "#2563eb")
+    draw_series("portfolio_value", "#059669")
+
+    draw.text((margin_left, height - 45), date_min.strftime("%Y-%m-%d"), fill="#4b5563", font=font)
+    draw.text((width - margin_right - 72, height - 45), date_max.strftime("%Y-%m-%d"), fill="#4b5563", font=font)
+    legend_y = height - 28
+    draw.rectangle((margin_left, legend_y, margin_left + 14, legend_y + 4), fill="#059669")
+    draw.text((margin_left + 20, legend_y - 6), "Capitol portfolio", fill="#111827", font=font)
+    draw.rectangle((margin_left + 160, legend_y, margin_left + 174, legend_y + 4), fill="#2563eb")
+    draw.text((margin_left + 180, legend_y - 6), "Benchmark", fill="#111827", font=font)
+    draw.rectangle((margin_left + 285, legend_y, margin_left + 299, legend_y + 4), fill="#6b7280")
+    draw.text((margin_left + 305, legend_y - 6), "Contributed cash", fill="#111827", font=font)
+    image.save(path)
 
 
 def _format_money(value: float | None) -> str:

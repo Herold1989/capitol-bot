@@ -52,7 +52,7 @@ The compose stack avoids common defaults:
 ## Run
 
 ```bash
-cd /Users/herold/Desktop/capitol-paper-bot
+cd /Users/Username/Location/capitol-paper-bot
 docker compose build
 docker compose up -d db
 docker compose run --rm bot
@@ -91,6 +91,7 @@ docker compose run --rm bot python -m bot.cli --config config/strategy.yaml dail
 - `data/run_manifest.json`
 - `data/portfolio_history.csv`
 - `data/portfolio_chart.svg`
+- `data/portfolio_chart.png`
 - `data/daily_message.txt`
 
 Paper-trading state is stored in Postgres tables:
@@ -121,7 +122,15 @@ make backtest
 
 ## Alerts
 
-Set `DISCORD_WEBHOOK_URL` to send Discord alerts for the daily run summary, executed trades, stale data, provider errors, and disclosure-feed warnings.
+For production, set Postgres credentials through environment variables instead of hardcoding them in Compose:
+
+```text
+POSTGRES_DB=capitol_bot
+POSTGRES_USER=capitol_bot
+POSTGRES_PASSWORD=<long random password>
+```
+
+Set `DISCORD_WEBHOOK_URL` to send Discord alerts for the daily run summary, portfolio PNG chart, executed trades, stale data, provider errors, and disclosure-feed warnings.
 
 Optional: set `DISCORD_USER_ID` to your numeric Discord user ID if you want the bot to mention you. A handle such as `herold1989` is not enough for Discord mentions.
 

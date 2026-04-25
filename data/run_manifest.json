@@ -1,0 +1,31 @@
+{
+  "command": "paper-run",
+  "config_hash": "2430844d8d775316c8288eefdf933a6eb835fb5849a5c449d77dde07ab7706b0",
+  "disclosure_count": 39,
+  "disclosure_date_range": [
+    "2026-04-16",
+    "2026-04-24"
+  ],
+  "docker_image_id": "66aa01211871",
+  "git_commit": null,
+  "price_date_range": [
+    "2024-01-02",
+    "2026-04-24"
+  ],
+  "routine_status": {
+    "attempted_symbol_count": 37,
+    "benchmark_latest_price_date": "2026-04-24",
+    "degraded": false,
+    "disclosure_count": 39,
+    "latest_disclosure_date": "2026-04-24",
+    "latest_price_date": "2026-04-24",
+    "provider_error_count": 0,
+    "reason": "fresh",
+    "resolved_symbol_count": 37,
+    "stale_disclosures": false,
+    "stale_price": false,
+    "unresolved_symbol_count": 0
+  },
+  "run_duration_seconds": 12.903,
+  "status": "ok"
+}

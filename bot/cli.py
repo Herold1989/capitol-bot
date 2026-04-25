@@ -28,7 +28,7 @@ def _build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Capitol Trades paper bot")
     parser.add_argument("--config", required=True)
     parser.add_argument("--dry-run", action="store_true", help="compute a paper run without writing DB state")
-    parser.add_argument("command", choices=["backtest", "paper-run", "daily-report", "health-check"])
+    parser.add_argument("command", choices=["backtest", "paper-run", "daily-report", "health-check", "discord-test"])
     return parser
 
 
@@ -161,6 +161,15 @@ async def _run(config_path: str, command: str, dry_run: bool = False) -> None:
     cache_dir = Path(config.data.cache_dir)
     cache_dir.mkdir(parents=True, exist_ok=True)
 
+    if command == "discord-test":
+        sent = send_alert(
+            "Capitol bot Discord test",
+            "Discord webhook delivery is working for this container.",
+            raise_on_error=True,
+        )
+        print(f"discord_alert_sent: {sent}")
+        return
+
     if command == "daily-report":
         # Report-only mode renders the newest stored run from Postgres.
         db_url = os.environ.get("DATABASE_URL")
@@ -178,7 +187,9 @@ async def _run(config_path: str, command: str, dry_run: bool = False) -> None:
         (out_dir / "daily_message.txt").write_text(message + "\n")
         history.to_csv(out_dir / "portfolio_history.csv", index=False)
         (out_dir / "portfolio_chart.svg").write_text(render_portfolio_chart_svg(history))
+        alert_sent = send_alert("Capitol bot daily update", message)
         print(message)
+        print(f"discord_alert_sent: {alert_sent}")
         return
 
     # The simplified strategy is disclosure driven, so the recent trade feed is
@@ -361,6 +372,7 @@ async def _run(config_path: str, command: str, dry_run: bool = False) -> None:
     if report is not None:
         message = render_daily_message(report)
         (out_dir / "daily_message.txt").write_text(message + "\n")
+        send_alert("Capitol bot daily update", message)
 
     # Persist the exact signal/target view associated with this run when it is available.
     run_signal_frame = paper_result.signal_frame if not paper_result.signal_frame.empty else latest_signal_frame

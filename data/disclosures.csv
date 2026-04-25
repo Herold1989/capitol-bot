@@ -1,0 +1,40 @@
+politician,ticker,asset_name,traded_at,published_at,transaction_type,size_low,size_high,notional_mid,signed_notional,filing_delay_days,party,chamber,state
+Robert Bob Latta,FMAO,Farmers & Merchants Bancorp Inc,2026-04-20,2026-04-24,buy,8000.0,8000.0,8000.0,8000.0,4,Republican,House,OH
+Maria Elvira Salazar,AMGN,Amgen Inc,2026-03-24,2026-04-22,buy,32500.0,32500.0,32500.0,32500.0,28,Republican,House,FL
+Maria Elvira Salazar,BA,Boeing Co,2026-03-19,2026-04-22,buy,32500.0,32500.0,32500.0,32500.0,33,Republican,House,FL
+Maria Elvira Salazar,BA,Boeing Co,2026-03-19,2026-04-22,buy,8000.0,8000.0,8000.0,8000.0,33,Republican,House,FL
+Maria Elvira Salazar,CSCO,Cisco Systems Inc,2026-03-19,2026-04-22,buy,8000.0,8000.0,8000.0,8000.0,33,Republican,House,FL
+Maria Elvira Salazar,CSCO,Cisco Systems Inc,2026-03-19,2026-04-22,buy,32500.0,32500.0,32500.0,32500.0,33,Republican,House,FL
+Maria Elvira Salazar,C,Citigroup Inc,2026-03-19,2026-04-22,buy,32500.0,32500.0,32500.0,32500.0,33,Republican,House,FL
+Maria Elvira Salazar,C,Citigroup Inc,2026-03-19,2026-04-22,buy,8000.0,8000.0,8000.0,8000.0,33,Republican,House,FL
+Maria Elvira Salazar,GLW,Corning Inc,2026-03-19,2026-04-22,buy,32500.0,32500.0,32500.0,32500.0,33,Republican,House,FL
+Maria Elvira Salazar,FDX,FedEx Corp,2026-03-19,2026-04-22,buy,32500.0,32500.0,32500.0,32500.0,33,Republican,House,FL
+Maria Elvira Salazar,FDX,FedEx Corp,2026-03-25,2026-04-22,buy,8000.0,8000.0,8000.0,8000.0,27,Republican,House,FL
+Maria Elvira Salazar,GE,General Electric Co,2026-03-24,2026-04-22,buy,8000.0,8000.0,8000.0,8000.0,28,Republican,House,FL
+Maria Elvira Salazar,GS,The Goldman Sachs Group Inc,2026-03-19,2026-04-22,buy,32500.0,32500.0,32500.0,32500.0,33,Republican,House,FL
+Maria Elvira Salazar,HON,Honeywell International Inc,2026-03-24,2026-04-22,buy,32500.0,32500.0,32500.0,32500.0,28,Republican,House,FL
+Maria Elvira Salazar,NVR,NVR Inc,2026-03-19,2026-04-22,buy,8000.0,8000.0,8000.0,8000.0,33,Republican,House,FL
+Maria Elvira Salazar,PTON,Peloton Interactive Inc,2026-03-19,2026-04-22,buy,8000.0,8000.0,8000.0,8000.0,33,Republican,House,FL
+Maria Elvira Salazar,RH,RH,2026-03-19,2026-04-22,buy,32500.0,32500.0,32500.0,32500.0,33,Republican,House,FL
+Maria Elvira Salazar,ULTA,Ulta Beauty Inc,2026-03-19,2026-04-22,buy,32500.0,32500.0,32500.0,32500.0,33,Republican,House,FL
+Maria Elvira Salazar,URI,United Rentals Inc,2026-03-25,2026-04-22,buy,8000.0,8000.0,8000.0,8000.0,27,Republican,House,FL
+Maria Elvira Salazar,VG,VENTURE GLOBAL INC,2026-03-19,2026-04-22,buy,8000.0,8000.0,8000.0,8000.0,33,Republican,House,FL
+Maria Elvira Salazar,WHR,Whirlpool Corp,2026-03-19,2026-04-22,buy,32500.0,32500.0,32500.0,32500.0,33,Republican,House,FL
+Maria Elvira Salazar,WHR,Whirlpool Corp,2026-03-19,2026-04-22,buy,8000.0,8000.0,8000.0,8000.0,33,Republican,House,FL
+Terrycina Terri Sewell,GEHC,GE HEALTHCARE TECHNOLOGI INC,2026-03-25,2026-04-21,sell,8000.0,8000.0,8000.0,-8000.0,27,Democrat,House,AL
+Terrycina Terri Sewell,TPR,Tapestry Inc,2026-03-25,2026-04-21,sell,32500.0,32500.0,32500.0,-32500.0,27,Democrat,House,AL
+Cleo Fields,TSM,Taiwan Semiconductor Manufacturing Co Ltd,2026-04-09,2026-04-21,buy,8000.0,8000.0,8000.0,8000.0,11,Democrat,House,LA
+Daniel Dan Meuser,NVDA,NVIDIA Corporation,2026-03-25,2026-04-21,sell,8000.0,8000.0,8000.0,-8000.0,27,Republican,House,PA
+Dwight Evans,MU,Micron Technology Inc,2026-03-24,2026-04-21,sell,32500.0,32500.0,32500.0,-32500.0,27,Democrat,House,PA
+James Jim Banks,SBUX,Starbucks Corp,2026-04-15,2026-04-20,sell,8000.0,8000.0,8000.0,-8000.0,5,Republican,Senate,IN
+Jennifer McClellan,VZ,Verizon Communications Inc,2026-04-07,2026-04-17,sell,175000.0,175000.0,175000.0,-175000.0,9,Democrat,House,VA
+Sheri Biggs,IBIT,ISHARES BITCOIN TRUST ETF,2026-03-04,2026-04-17,buy,175000.0,175000.0,175000.0,175000.0,43,Republican,House,SC
+August Pfluger,UHAL,Amerco,2026-03-13,2026-04-16,buy,32500.0,32500.0,32500.0,32500.0,33,Republican,House,TX
+August Pfluger,B,Berkshire Hathaway Inc,2026-03-13,2026-04-16,buy,32500.0,32500.0,32500.0,32500.0,33,Republican,House,TX
+August Pfluger,DMLP,Dorchester Minerals LP,2026-03-13,2026-04-16,buy,32500.0,32500.0,32500.0,32500.0,33,Republican,House,TX
+August Pfluger,EPD,Enterprise Products Partners LP,2026-03-13,2026-04-16,buy,32500.0,32500.0,32500.0,32500.0,33,Republican,House,TX
+Richard Rick Larsen,AXP,American Express Co,2026-04-07,2026-04-16,sell,8000.0,8000.0,8000.0,-8000.0,8,Democrat,House,WA
+Richard Rick Larsen,AWK,American Water Works Company Inc,2026-04-07,2026-04-16,sell,8000.0,8000.0,8000.0,-8000.0,8,Democrat,House,WA
+Richard Rick Larsen,BR,Broadridge Financial Solutions Inc,2026-04-07,2026-04-16,sell,8000.0,8000.0,8000.0,-8000.0,8,Democrat,House,WA
+Richard Rick Larsen,CARR,Carrier Global Corp,2026-04-07,2026-04-16,buy,8000.0,8000.0,8000.0,8000.0,8,Democrat,House,WA
+Richard Rick Larsen,CASY,Casey's General Stores Inc.,2026-04-07,2026-04-16,buy,8000.0,8000.0,8000.0,8000.0,8,Democrat,House,WA

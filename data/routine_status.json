@@ -1,0 +1,14 @@
+{
+  "attempted_symbol_count": 37,
+  "benchmark_latest_price_date": "2026-04-24",
+  "degraded": false,
+  "disclosure_count": 39,
+  "latest_disclosure_date": "2026-04-24",
+  "latest_price_date": "2026-04-24",
+  "provider_error_count": 0,
+  "reason": "fresh",
+  "resolved_symbol_count": 37,
+  "stale_disclosures": false,
+  "stale_price": false,
+  "unresolved_symbol_count": 0
+}

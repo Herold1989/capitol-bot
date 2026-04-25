@@ -121,7 +121,17 @@ make backtest
 
 ## Alerts
 
-Set `ALERT_WEBHOOK_URL` to send simple webhook alerts for executed trades, stale data, provider errors, and disclosure-feed warnings.
+Set `DISCORD_WEBHOOK_URL` to send Discord alerts for the daily run summary, executed trades, stale data, provider errors, and disclosure-feed warnings.
+
+Optional: set `DISCORD_USER_ID` to your numeric Discord user ID if you want the bot to mention you. A handle such as `herold1989` is not enough for Discord mentions.
+
+Local Discord smoke test:
+
+```bash
+docker compose run --rm bot python -m bot.cli --config config/strategy.yaml discord-test
+```
+
+Coolify deployment notes are in `docs/coolify.md`.
 
 ## Notes
 

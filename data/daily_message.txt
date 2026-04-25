@@ -1,0 +1,12 @@
+Capitol bot update 2026-04-24
+Contribution applied: no
+Benchmark ETF $5,482.06 on $5,250.00 contributed
+Capitol stocks $5,223.13 on $5,250.00 contributed
+Capitol total $5,223.13
+Relative performance Capitol vs benchmark: -4.7%
+Cash balance: $0.00
+Trades today: No trade
+Reason: hold target: positive 45d net Capitol flow, >=2 buys, and close above 50d MA
+Holdings: BA (Boeing Co) $1,772.23, C (Citigroup Inc) $1,728.19, CSCO (Cisco Systems Inc) $1,722.71, cash $0.00
+Data status: fresh
+Not investment advice.

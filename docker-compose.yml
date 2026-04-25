@@ -22,6 +22,8 @@ services:
         condition: service_healthy
     environment:
       DATABASE_URL: postgresql://postgres:postgres@db:5432/capitol_bot
+      DISCORD_WEBHOOK_URL: ${DISCORD_WEBHOOK_URL:-}
+      DISCORD_USER_ID: ${DISCORD_USER_ID:-}
     volumes:
       - ./data:/app/data
       - ./config:/app/config

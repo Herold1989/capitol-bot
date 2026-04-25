@@ -1,0 +1,31 @@
+services:
+  db:
+    image: postgres:16-alpine
+    ports:
+      - "55432:5432"
+    environment:
+      POSTGRES_DB: capitol_bot
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d capitol_bot"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  bot:
+    build:
+      context: .
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@db:5432/capitol_bot
+    volumes:
+      - ./data:/app/data
+      - ./config:/app/config
+    command: ["python", "-m", "bot.cli", "--config", "config/strategy.yaml", "paper-run"]
+
+volumes:
+  postgres_data:

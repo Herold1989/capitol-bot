@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "capitol-paper-bot"
+version = "0.1.0"
+description = "Dockerized paper trading bot based on Capitol Trades disclosures and free market data."
+requires-python = ">=3.11"
+dependencies = [
+  "beautifulsoup4==4.13.4",
+  "lxml==5.4.0",
+  "numpy==2.2.5",
+  "pandas==2.2.3",
+  "pydantic==2.11.4",
+  "psycopg[binary]==3.2.9",
+  "pyyaml==6.0.2",
+  "requests==2.32.3",
+  "tenacity==9.1.2",
+  "yfinance==0.2.58",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest==8.3.5",
+]
+
+[tool.setuptools]
+packages = ["bot"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

@@ -95,5 +95,10 @@ class AppConfig(BaseModel):
 
 def load_config(path: str | Path) -> AppConfig:
     # Parse YAML once and validate every nested section before the run starts.
-    raw: dict[str, Any] = yaml.safe_load(Path(path).read_text())
+    config_path = Path(path)
+    if not config_path.exists():
+        fallback_path = Path("/app/default_config") / config_path.name
+        if fallback_path.exists():
+            config_path = fallback_path
+    raw: dict[str, Any] = yaml.safe_load(config_path.read_text())
     return AppConfig.model_validate(raw)

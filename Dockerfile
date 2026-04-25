@@ -16,6 +16,7 @@ RUN pip install --no-cache-dir --upgrade pip \
     && pip install --no-cache-dir -r requirements-dev.txt
 
 COPY config ./config
+COPY config ./default_config
 COPY README.md ./
 
 CMD ["python", "-m", "bot.cli", "--config", "config/strategy.yaml", "paper-run"]

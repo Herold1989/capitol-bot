@@ -8,6 +8,8 @@ This setup does not require a domain. Coolify only needs to run the Docker Compo
 - `bot`: one-shot paper-trading container
 - `data/`: mounted artifact directory for reports, CSVs, and charts
 
+The image includes a fallback config at `/app/default_config/strategy.yaml`. If Coolify creates an empty config volume at `/app/config`, the bot will still start using that fallback. If you want to override strategy settings in production, mount a real `strategy.yaml` at `/app/config/strategy.yaml`.
+
 ## Environment Variables
 
 Set these in Coolify:
